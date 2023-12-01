@@ -69,16 +69,30 @@ FROM fortune_companies
 GROUP BY industry
 HAVING average_maternity>10;
 
-How many total employees are in the Healthcare industry?
+#How many total employees are in the Healthcare industry?
 SELECT industry, SUM(employees) AS total_employees 
 FROM fortune_companies
 WHERE industry='Healthcare';
 
+#Assign all the companies in the Healthcare industry as having "excellent maternity leave", "average maternity leave", or "poor" based on the maternity leave offered. 
+SELECT company_name,
+CASE 
+  WHEN maternity_leave_weeks >= 10 THEN 'excellent maternity leave'
+  WHEN maternity_leave_weeks >= 8 THEN 'average maternity leave'
+  ELSE 'poor'
+END as maternity_policy
+FROM fortune_companies
+WHERE industry='Healthcare'
+;
 
-
-
-
-
+#Assign all the companies "small", "midsized", or "very large" based on their number of employees. 
+SELECT company_name,
+CASE WHEN employees  <=2000 THEN 'small'
+WHEN employees  <=3500 THEN 'midsize' 
+WHEN employees  >=10000 THEN 'very large'
+ELSE ">2000" 
+END AS company_size
+FROM fortune_companies;
 
 
 
